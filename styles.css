@@ -1,0 +1,94 @@
+/* Ogólny styl */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+}
+
+/* Nagłówki */
+h1, h2 {
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+/* Formularz */
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* Przyciski */
+.btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+}
+
+/* Lista uczestników */
+.participants-list {
+	display: none;
+    margin-top: 20px;
+    text-align: left;
+}
+
+.participants-list2 {
+    margin-top: 20px;
+    text-align: left;
+}
+
+.participant-item {
+    background-color: #f1f1f1;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 14px;
+}
+
+/* Wynik losowania */
+.result-box {
+    background-color: #dff0d8;
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #3c763d;
+    border: 1px solid #d6e9c6;
+    border-radius: 5px;
+    text-align: center;
+}
