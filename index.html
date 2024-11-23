@@ -8,5 +8,13 @@
 <body>
     <h1>Witaj na mojej stronie!</h1>
     <p>Strona hostowana na GitHub Pages.</p>
+	
+	<script>
+    fetch('data.json')
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => console.error('Błąd:', error));
+	</script>
+
 </body>
 </html>
