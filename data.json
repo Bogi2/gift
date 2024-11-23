@@ -1,6 +1,8 @@
-[
-    { "id": 1, "name": "Jan" },
-    { "id": 2, "name": "Anna" },
-    { "id": 3, "name": "Piotr" },
-    { "id": 4, "name": "Maria" }
-]
+{
+  "people": [
+    {"id": 1, "name": "Jan", "hasDrawn": false, "drawnName": null},
+    {"id": 2, "name": "Anna", "hasDrawn": false, "drawnName": null},
+    {"id": 3, "name": "Marek", "hasDrawn": false, "drawnName": null},
+    {"id": 4, "name": "Zofia", "hasDrawn": false, "drawnName": null}
+  ]
+}
