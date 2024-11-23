@@ -3,46 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wyświetlanie danych</title>
+    <title>Losowanie osób</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 20px;
         }
-        .product {
+        .person {
             margin: 10px 0;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        button {
+            padding: 5px 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ddd;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #333;
         }
     </style>
 </head>
 <body>
-    <h1>Lista produktów</h1>
-    <div id="products"></div> <!-- Kontener na dane -->
-
+    <h1>Losowanie osób</h1>
+    <div id="people"></div> <!-- Kontener na listę osób -->
+    <div id="result"></div> <!-- Miejsce na wynik -->
+    
     <script>
-        // Pobieranie danych z pliku data.json
+        let participants = []; // Tablica uczestników
+        let selectedParticipants = []; // Tablica wylosowanych osób
+
+        // Pobieranie listy osób z data.json
         fetch('data.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Nie udało się pobrać danych');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
-                const container = document.getElementById('products'); // Kontener do wyświetlania danych
-                data.forEach(product => {
-                    // Tworzenie elementów HTML dla każdego produktu
-                    const productDiv = document.createElement('div');
-                    productDiv.className = 'product';
-                    productDiv.innerHTML = `
-                        <h2>${product.name}</h2>
-                        <p>Cena: ${product.price} zł</p>
-                    `;
-                    container.appendChild(productDiv); // Dodanie produktu do kontenera
-                });
+                participants = data; // Przechowywanie listy osób
+                renderList();
             })
-            .catch(error => console.error('Błąd:', error)); // Obsługa błędów
-    </script>
-</body>
-</html>
+            .catch(error => console.error('Błąd podczas ładowania danych:', error));
+
+        function renderList() {
+            const container = document.getElementById('people');
+            container.innerHTML = ''; // Czyści poprzedni widok
+
+            participants.forEach(person => {
+                const personDiv = document.createElement('div');
+                personDiv.className = 'person';
+
+                const name = document.createElement('span');
+                name.textContent = per

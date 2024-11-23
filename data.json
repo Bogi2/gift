@@ -1,12 +1,6 @@
 [
-    {
-        "id": 1,
-        "name": "Produkt A",
-        "price": 19.99
-    },
-    {
-        "id": 2,
-        "name": "Produkt B",
-        "price": 29.99
-    }
+    { "id": 1, "name": "Jan" },
+    { "id": 2, "name": "Anna" },
+    { "id": 3, "name": "Piotr" },
+    { "id": 4, "name": "Maria" }
 ]
