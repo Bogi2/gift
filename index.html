@@ -3,18 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moja Strona</title>
+    <title>Wyświetlanie danych</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .product {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Witaj na mojej stronie!</h1>
-    <p>Strona hostowana na GitHub Pages.</p>
-	
-	<script>
-    fetch('data.json')
-        .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(error => console.error('Błąd:', error));
-	</script>
+    <h1>Lista produktów</h1>
+    <div id="products"></div> <!-- Kontener na dane -->
 
+    <script>
+        // Pobieranie danych z pliku data.json
+        fetch('data.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Nie udało się pobrać danych');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const container = document.getElementById('products'); // Kontener do wyświetlania danych
+                data.forEach(product => {
+                    // Tworzenie elementów HTML dla każdego produktu
+                    const productDiv = document.createElement('div');
+                    productDiv.className = 'product';
+                    productDiv.innerHTML = `
+                        <h2>${product.name}</h2>
+                        <p>Cena: ${product.price} zł</p>
+                    `;
+                    container.appendChild(productDiv); // Dodanie produktu do kontenera
+                });
+            })
+            .catch(error => console.error('Błąd:', error)); // Obsługa błędów
+    </script>
 </body>
 </html>
