@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>czyszczenie</title>
+    <script type="module">
+
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+        import { getFirestore, doc, getDoc, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
+
+		// Konfiguracja Firebase (podmień na swoje dane)
+		  const firebaseConfig = {
+			apiKey: "AIzaSyDAq4BF65YMUpN45JfW937Tw86jr3oQJms",
+			authDomain: "losowanie-1d765.firebaseapp.com",
+			projectId: "losowanie-1d765",
+			storageBucket: "losowanie-1d765.firebasestorage.app",
+			messagingSenderId: "954317941576",
+			appId: "1:954317941576:web:2ebdfac2b525e2205be17d"
+		  };
+
+        // Inicjalizacja Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+		async function resetParticipants() {
+			try {
+			alert("Info w consoli");
+				// Pobierz wszystkie dokumenty z kolekcji "participants"
+				const participantsSnap = await getDocs(collection(db, "participants"));
+
+				// Iteruj przez dokumenty i aktualizuj dane
+				participantsSnap.forEach(async (docSnapshot) => {
+					const participantRef = doc(db, "participants", docSnapshot.id);
+
+					// Aktualizacja pól w dokumencie
+					await updateDoc(participantRef, {
+						drawnPerson: "", // Ustawienie na null
+						hasDrawn: false,   // Resetowanie stanu losowania
+						isDrawn: false     // Resetowanie stanu wylosowania
+					});
+
+					console.log(`Zresetowano dane dla uczestnika: ${docSnapshot.id}`);
+				});
+
+				alert("Dane uczestników zostały zresetowane!");
+			} catch (error) {
+				console.error("Wystąpił błąd podczas resetowania danych:", error);
+				alert("Nie udało się zresetować danych uczestników.");
+			}
+		}
+
+		// Wywołaj funkcję
+		resetParticipants();
+</script>
+</head>
+<body>
+    <div class="container">
+
+        <div id="participants"></div>
+
+    </div>
+</body>
+</html>

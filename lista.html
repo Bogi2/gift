@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Losowanie Osób</title>
-    <link rel="stylesheet" href="styles.css">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="styles.css">
+    <title>Lista Osób</title>
     <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+
+		import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
         import { getFirestore, doc, getDoc, updateDoc, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-        // Konfiguracja Firebase (podmień na swoje dane)
+		// Konfiguracja Firebase (podmień na swoje dane)
 		  const firebaseConfig = {
 			apiKey: "AIzaSyDAq4BF65YMUpN45JfW937Tw86jr3oQJms",
 			authDomain: "losowanie-1d765.firebaseapp.com",
@@ -22,110 +22,26 @@
         // Inicjalizacja Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+const participantsContainer = document.getElementById("participants");
+		const allParticipantsSnap = await getDocs(collection(db, "participants"));
+		allParticipantsSnap.forEach((doc) => {
+			const data = doc.data();
 
-        async function displayParticipants() {
-            const participantsContainer = document.getElementById("participants");
-            const participantsSelect = document.getElementById("participantSelect");
-
-            participantsContainer.innerHTML = "";
-            participantsSelect.innerHTML = "";
-
-            const allParticipantsSnap = await getDocs(collection(db, "participants"));
-            allParticipantsSnap.forEach((doc) => {
-                const data = doc.data();
-
-                // Dodanie do sekcji wyświetlającej uczestników
-                const div = document.createElement("div");
-                div.classList.add("participant-item");
-                div.textContent = `${data.name} - Wylosował: ${data.drawnPerson || "-"}`;
-                participantsContainer.appendChild(div);
+			// Dodanie do sekcji wyświetlającej uczestników
+			const div = document.createElement("div");
+			div.classList.add("participant-item");
+			div.textContent = `${data.name} - ma: ${data.drawnPerson || "-brak-"} - Zostal wylosowany:${data.isDrawn ? "Tak" : "Nie"}`;
+			participantsContainer.appendChild(div);
+			console.log(`...: ${data.name}`);
+		});
 
 
-            });
-        }
-
-		// Funkcja do mieszania listy (Fisher-Yates Shuffle)
-		function shuffleArray(array) {
-			for (let i = array.length - 1; i > 0; i--) {
-				const j = Math.floor(Math.random() * (i + 1)); // Losowanie indeksu
-				[array[i], array[j]] = [array[j], array[i]]; // Zamiana elementów
-			}
-				return array;
-		}
-
-        async function drawPerson(participantName) {
-            const participantRef = doc(db, "participants", participantName);
-            const participantSnap = await getDoc(participantRef);
-
-            if (!participantSnap.exists()) {
-                alert("Uczestnik nie istnieje!");
-                return;
-            }
-
-            const participant = participantSnap.data();
-
-            if (participant.hasDrawn) {
-                alert(`${participantName} już losował/a!`);
-                return;
-            }
-
-            const allParticipantsSnap = await getDocs(collection(db, "participants"));
-            const availableParticipants = [];
-			
-            allParticipantsSnap.forEach((doc) => {
-                const data = doc.data();
-                if (data.name !== participantName && !data.drawnPerson) {
-                    availableParticipants.push(data.name);
-                }
-            });
-
-            if (availableParticipants.length === 0) {
-                alert("Brak dostępnych osób do wylosowania.");
-                return;
-            }
-			
-			// Mieszanie listy dostępnych uczestników, aby losowanie było bardziej przypadkowe
-			shuffleArray(availableParticipants);
-
-            // Losowanie osoby z mieszanej listy
-			const drawnPerson = availableParticipants[0]; // Pierwszy uczestnik po mieszaniu
-
-
-            // Aktualizacja w Firestore
-            await updateDoc(participantRef, {
-                hasDrawn: true,
-                drawnPerson: drawnPerson
-            });
-
-            // Zaktualizowanie wyników na stronie
-            const resultContainer = document.getElementById("result");
-            resultContainer.textContent = `${participantName} wylosował/a: ${drawnPerson}`;
-
-            displayParticipants(); // Odśwież listę
-        }
-
-        document.addEventListener("DOMContentLoaded", () => {
-            displayParticipants();
-
-            document.getElementById("drawButton").addEventListener("click", async () => {
-                const participantName = document.getElementById("participantSelect").value;
-                if (participantName) {
-                    await drawPerson(participantName);
-                } else {
-                    alert("Wybierz uczestnika!");
-                }
-            });
-        });
-    </script>
+</script>
 </head>
 <body>
     <div class="container">
 
-        <div class="form-group">
-            <select id="participantSelect">
-            </select>
-        </div>
-        <div id="participants" class="participants-list2"></div>
+        <div id="participants"></div>
 
     </div>
 </body>

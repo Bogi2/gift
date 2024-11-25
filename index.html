@@ -86,7 +86,8 @@
 			
             allParticipantsSnap.forEach((doc) => {
                 const data = doc.data();
-                if (data.name !== participantName && !data.drawnPerson) {
+                if (data.name !== participantName && 
+				!data.isDrawn ) {
                     availableParticipants.push(data.name);
                 }
             });
@@ -108,12 +109,19 @@
                 hasDrawn: true,
                 drawnPerson: drawnPerson
             });
+			
+			const drawnPersonRef = doc(db, "participants", drawnPerson);
+			await updateDoc(drawnPersonRef, {
+				isDrawn: true // Oznaczamy osobę jako wylosowaną
+			});
 
             // Zaktualizowanie wyników na stronie
             const resultContainer = document.getElementById("result");
             resultContainer.textContent = `${participantName} wylosował/a: ${drawnPerson}`;
 
             displayParticipants(); // Odśwież listę
+			
+
         }
 
         document.addEventListener("DOMContentLoaded", () => {
